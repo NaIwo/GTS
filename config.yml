@@ -1,0 +1,4 @@
+dataset:
+  dataset-name: lap14
+  batch-size: 32
+  shuffle-seed: null

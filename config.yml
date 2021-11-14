@@ -1,4 +1,8 @@
 dataset:
-  dataset-name: lap14
+  dataset-name: lap14 # lap14, res14, res15, res16
   batch-size: 32
   shuffle-seed: null
+sentence:
+  max-length: 100
+task:
+  type: pair  # pair or triplet

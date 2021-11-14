@@ -1,5 +1,8 @@
 from typing import Dict, List, TypeVar
+import numpy as np
 
+from src.config_reader import config
+from .helpers import TagVectorID
 from .bio_tags import BioTag
 
 T = TypeVar('T', bound='Triplet')
@@ -10,10 +13,23 @@ class Triplet:
         self.uid: str = uid
         self.target_tags: str = target_tags
         self.opinion_tags: str = opinion_tags
-        self.sentiment: str = sentiment
+        self.sentence_length: int = len(target_tags.split())
+        self.sentiment: str = sentiment.upper()
 
-        self.target_span: BioTag = BioTag.from_raw_tags(self.target_tags)
-        self.opinion_span: BioTag = BioTag.from_raw_tags(self.opinion_tags)
+        self.target_span: BioTag = BioTag.from_raw_tags(tags=self.target_tags)
+        self.opinion_span: BioTag = BioTag.from_raw_tags(tags=self.opinion_tags)
+
+        self.target_tags_vector: np.ndarray = self._construct_tags_vector(span=self.target_span)
+        self.opinion_tags_vector: np.ndarray = self._construct_tags_vector(span=self.opinion_span)
+
+    def _construct_tags_vector(self, span: BioTag) -> np.ndarray:
+        tag_vector: np.ndarray = np.full(config['sentence']['max-length'], TagVectorID.OTHER.value)
+
+        tag_vector[self.sentence_length:] = TagVectorID.NOT_RELEVANT.value
+        tag_vector[span.start_idx:span.end_idx] = TagVectorID.INSIDE.value
+        tag_vector[span.start_idx] = TagVectorID.BEGIN.value
+
+        return tag_vector
 
     @classmethod
     def from_list(cls, data: List[Dict]) -> List[T]:

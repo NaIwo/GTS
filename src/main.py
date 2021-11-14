@@ -10,4 +10,5 @@ if __name__ == "__main__":
     test_ds: Dataset = dataset_reader.read('test')
 
     for data in train_ds.batch(batch_size=config['dataset']['batch-size'], seed=config['dataset']['shuffle-seed']):
-        print(data)
+        #print(data)
+        pass

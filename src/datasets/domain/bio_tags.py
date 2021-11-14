@@ -32,6 +32,7 @@ class BioTag:
                 span.span_words += f' {word}'
             if (bio_tag == 'O' or idx == len(splitted_tags) - 1) and (span is not None):
                 span.end_idx = idx - (int(bio_tag == 'O'))  # if idx == len(splitted_tags) - 1
+                break
 
         return span
 

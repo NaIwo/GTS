@@ -4,7 +4,7 @@ import numpy as np
 from src.config_reader import config
 from .bio_tags import BioTag
 from .triplets import Triplet
-from .helpers import GTSMatrixID, MaskID
+from .enums import GTSMatrixID, MaskID
 
 T = TypeVar('T', bound='Sentence')
 

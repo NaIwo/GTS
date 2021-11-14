@@ -2,7 +2,7 @@ from typing import Dict, List, TypeVar
 import numpy as np
 
 from src.config_reader import config
-from .helpers import TagVectorID
+from .enums import TagVectorID
 from .bio_tags import BioTag
 
 T = TypeVar('T', bound='Triplet')

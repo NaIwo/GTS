@@ -2,7 +2,7 @@ from typing import Dict, List, TypeVar
 import numpy as np
 
 from src.config_reader import config
-from .enums import TagVectorID
+from src.datasets.domain.enums import TagVectorID
 from .bio_tags import BioTag
 
 T = TypeVar('T', bound='Triplet')
@@ -33,7 +33,7 @@ class Triplet:
 
     @classmethod
     def from_list(cls, data: List[Dict]) -> List[T]:
-        triplets: List[Triplet] = list()
+        triplets: List[cls] = list()
         for d in data:
             uid: str = d['uid']
             target_tags: str = d['target_tags']

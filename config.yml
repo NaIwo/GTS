@@ -6,3 +6,7 @@ sentence:
   max-length: 100
 task:
   type: pair  # pair or triplet
+encoder:
+  type: glove  # bert or glove
+  bert:
+    source: bert-base-uncased

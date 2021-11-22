@@ -1,8 +1,7 @@
 from typing import Dict, List, TypeVar
 import numpy as np
 
-from src.config_reader import config
-from src.datasets.domain.enums import TagVectorID
+from ..matrix_creators.tags_vector_creator import tag_vector_creator
 from .bio_tags import BioTag
 
 T = TypeVar('T', bound='Triplet')
@@ -19,17 +18,11 @@ class Triplet:
         self.target_span: BioTag = BioTag.from_raw_tags(tags=self.target_tags)
         self.opinion_span: BioTag = BioTag.from_raw_tags(tags=self.opinion_tags)
 
-        self.target_tags_vector: np.ndarray = self._construct_tags_vector(span=self.target_span)
-        self.opinion_tags_vector: np.ndarray = self._construct_tags_vector(span=self.opinion_span)
+    def get_target_tags_vector(self, sequence_length: int) -> np.ndarray:
+        return tag_vector_creator.construct_tags_vector(span=self.target_span, sequence_length=sequence_length)
 
-    def _construct_tags_vector(self, span: BioTag) -> np.ndarray:
-        tag_vector: np.ndarray = np.full(config['sentence']['max-length'], TagVectorID.OTHER.value)
-
-        tag_vector[self.sentence_length:] = TagVectorID.NOT_RELEVANT.value
-        tag_vector[span.start_idx:span.end_idx] = TagVectorID.INSIDE.value
-        tag_vector[span.start_idx] = TagVectorID.BEGIN.value
-
-        return tag_vector
+    def get_opinion_tags_vector(self, sequence_length: int) -> np.ndarray:
+        return tag_vector_creator.construct_tags_vector(span=self.opinion_span, sequence_length=sequence_length)
 
     @classmethod
     def from_list(cls, data: List[Dict]) -> List[T]:

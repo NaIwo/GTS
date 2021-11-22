@@ -13,3 +13,6 @@ class BertEncoder(BasicEncoder):
     def encode(self, sentence: str) -> List:
         return self.encoder.encode(sentence.split())
 
+    def encode_single_word(self, word: str) -> List:
+        return self.encoder.encode(word, add_special_tokens=False)
+

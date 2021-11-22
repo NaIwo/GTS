@@ -1,22 +1,36 @@
-from .basic_creator import BasicCreator
-from src.config_reader import config
-from ..domain.bio_tags import BioTag
 from ..domain.triplets import Triplet
-from src.datasets.domain.enums import GTSMatrixID, MaskID
+from src.config_reader import config
+from src.datasets.domain.enums import GTSMatrixID
+from ..domain.bio_tags import BioTag
 
+from abc import abstractmethod
 import numpy as np
 from typing import List
 
 
-class GloveCreator(BasicCreator):
+class BasicMatrixCreator:
+
+    @abstractmethod
+    def construct_gts_matrix(self, triplets: List[Triplet]) -> np.ndarray:
+        pass
+
+    @staticmethod
+    def fill_lower_diagonal_matrix_with_not_relevant_values(gts_matrix: np.ndarray) -> np.ndarray:
+        mask: np.ndarray = np.full(shape=(config['sentence']['max-length'], config['sentence']['max-length']),
+                                   fill_value=1.)
+        mask = np.triu(mask, k=0)
+        gts_matrix: np.ndarray = np.triu(gts_matrix, k=0)
+        return np.where(mask, gts_matrix, GTSMatrixID.NOT_RELEVANT.value)
+
+
+class BertMatrixCreator(BasicMatrixCreator):
     def __init__(self):
         super().__init__()
 
-    @staticmethod
-    def construct_mask(sentence_length: int) -> np.ndarray:
-        mask: np.ndarray = np.full(config['sentence']['max-length'], MaskID.RELEVANT.value)
-        mask[sentence_length:] = MaskID.NOT_RELEVANT.value
-        return mask
+
+class GloveMatrixCreator(BasicMatrixCreator):
+    def __init__(self):
+        super().__init__()
 
     def construct_gts_matrix(self, triplets: List[Triplet]) -> np.ndarray:
         gts_matrix: np.ndarray = np.full(shape=(config['sentence']['max-length'], config['sentence']['max-length']),
@@ -42,10 +56,18 @@ class GloveCreator(BasicCreator):
                                   value: int) -> None:
         gts_matrix[fist_span.start_idx:fist_span.end_idx + 1, second_span.start_idx:second_span.end_idx + 1] = value
 
-    @staticmethod
-    def fill_lower_diagonal_matrix_with_not_relevant_values(gts_matrix: np.ndarray) -> np.ndarray:
-        mask: np.ndarray = np.full(shape=(config['sentence']['max-length'], config['sentence']['max-length']),
-                                   fill_value=1.)
-        mask = np.triu(mask, k=0)
-        gts_matrix: np.ndarray = np.triu(gts_matrix, k=0)
-        return np.where(mask, gts_matrix, GTSMatrixID.NOT_RELEVANT.value)
+
+class GtsMatrixCreator:
+    def __init__(self, creator: BasicMatrixCreator):
+        self._creator: BasicMatrixCreator = creator
+
+    def construct_gts_matrix(self, triplets: List[Triplet]) -> np.ndarray:
+        return self._creator.construct_gts_matrix(triplets)
+
+
+if config['encoder']['type'] == 'bert':
+    gts_matrix_creator: GtsMatrixCreator = GtsMatrixCreator(BertMatrixCreator())
+elif config['encoder']['type'] == 'glove':
+    gts_matrix_creator: GtsMatrixCreator = GtsMatrixCreator(GloveMatrixCreator())
+else:
+    gts_matrix_creator: GtsMatrixCreator = GtsMatrixCreator(BasicMatrixCreator())

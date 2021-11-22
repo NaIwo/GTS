@@ -1,7 +1,7 @@
 from typing import List
 
 
-class BasicEncoder:
+class BaseEncoder:
     def __init__(self, encoder_name: str = 'basic tokenizer'):
         self.encoder_name: str = encoder_name
 

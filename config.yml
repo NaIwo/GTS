@@ -7,6 +7,6 @@ sentence:
 task:
   type: pair  # pair or triplet
 encoder:
-  type: glove  # bert or glove
+  type: bert  # bert or glove
   bert:
     source: bert-base-uncased

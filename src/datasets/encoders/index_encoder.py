@@ -10,7 +10,7 @@ class IndexEncoder(BaseEncoder):
     def __init__(self):
         super().__init__(encoder_name='index tokenizer')
         data_path: str = os.path.join(Path(os.path.dirname(os.path.realpath(__file__))).parent, 'datasets',
-                                      'embeddings_data', config['encoder']['glove-fasttext']['word-to-idx'])
+                                      'embeddings_data', config['encoder']['indexer']['word-to-idx'])
         self.encoder: Dict = json.load(open(data_path))
 
     def encode(self, sentence: str) -> List:

@@ -7,8 +7,10 @@ sentence:
 task:
   type: pair  # pair or triplet
 encoder:
-  type: glove-fasttext  # bert or glove-fasttext
+  type: glove-fasttext  # bert or glove-fasttext or indexer
   bert:
     source: bert-base-uncased
   glove-fasttext:
+    ~
+  indexer:
     word-to-idx: word_idx.json

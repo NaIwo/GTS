@@ -27,7 +27,7 @@ class Encoder:
 
 if config['encoder']['type'] == 'bert':
     encoder: Encoder = Encoder(BertEncoder())
-elif config['encoder']['type'] == 'glove-fasttext':
+elif config['encoder']['type'] == 'indexer':
     encoder: Encoder = Encoder(IndexEncoder())
 else:
     encoder: Encoder = Encoder(BaseEncoder())

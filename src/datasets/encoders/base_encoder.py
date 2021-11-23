@@ -6,7 +6,7 @@ class BaseEncoder:
         self.encoder_name: str = encoder_name
 
     def encode(self, sentence: str) -> List:
-        return [len(word) for word in sentence]
+        return sentence.strip().split()
 
     def encode_single_word(self, word: str) -> List:
-        return [len(word)]
+        return [word]

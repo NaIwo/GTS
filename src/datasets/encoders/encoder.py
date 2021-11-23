@@ -1,5 +1,6 @@
 from src.datasets.encoders.bert_encoder import BertEncoder
 from src.datasets.encoders.base_encoder import BaseEncoder
+from src.datasets.encoders.index_encoder import IndexEncoder
 from src.config_reader import config
 
 from typing import List
@@ -26,5 +27,7 @@ class Encoder:
 
 if config['encoder']['type'] == 'bert':
     encoder: Encoder = Encoder(BertEncoder())
+elif config['encoder']['type'] == 'glove-fasttext':
+    encoder: Encoder = Encoder(IndexEncoder())
 else:
     encoder: Encoder = Encoder(BaseEncoder())

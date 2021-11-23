@@ -25,11 +25,6 @@ class Sentence:
         self.target_tags_vector: np.ndarray = self._construct_tags_vector('target_span')
         self.opinion_tags_vector: np.ndarray = self._construct_tags_vector('opinion_span')
         self.gts_matrix: np.ndarray = self._construct_gts_matrix()
-        if self.sentence_id == '834':
-            print(self.sentence_id)
-            print(self.target_tags_vector)
-            print(self.opinion_tags_vector)
-            print(self.gts_matrix[:20, :20])
 
     @cached_property
     def token_range(self) -> List:

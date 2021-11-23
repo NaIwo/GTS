@@ -1,2 +1,4 @@
 __pycache__/
 .idea/
+
+/src/datasets/datasets/embeddings_data/*

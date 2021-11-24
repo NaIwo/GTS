@@ -8,9 +8,12 @@ task:
   type: pair  # pair or triplet
 encoder:
   type: glove-fasttext  # bert or glove-fasttext or indexer
+  embedding_dimension: 400
   bert:
     source: bert-base-uncased
   glove-fasttext:
-    ~
+    fasttext-model: model_lap14.bin # in datasets/datasets/embeddings_data
+    glove-file: gen.vec.npy # in datasets/datasets/embeddings_data
+    indexer-path: word_idx.json # in datasets/datasets/embeddings_data
   indexer:
-    word-to-idx: word_idx.json
+    word-to-idx: word_idx.json # in datasets/datasets/embeddings_data

@@ -2,6 +2,7 @@ import os
 import json
 import random
 from typing import Dict, List, Optional, TypeVar
+import numpy as np
 
 from .domain import Sentence
 
@@ -10,14 +11,14 @@ D = TypeVar('D', bound='Dataset')
 
 class Dataset:
     def __init__(self, raw_dataset: List[Sentence]):
-        self.raw_dataset: List[Sentence] = raw_dataset
+        self.sentences: List[Sentence] = raw_dataset
 
     def batch(self, batch_size: int = 32, seed: Optional[int] = None) -> D:
-        raw_dataset: List[Sentence] = self.raw_dataset
+        sentences: List[Sentence] = self.sentences
         random.seed(seed)
-        random.shuffle(raw_dataset)
+        random.shuffle(sentences)
         data: List[Sentence]
-        for data in self._get_batch(sentences=raw_dataset, batch_size=batch_size):
+        for data in self._get_batch(sentences=sentences, batch_size=batch_size):
             yield Dataset(data)
 
     @staticmethod
@@ -26,6 +27,14 @@ class Dataset:
         ndx: int
         for ndx in range(0, s_quantity, batch_size):
             yield sentences[ndx:min(ndx + batch_size, s_quantity)]
+
+    def get(self, name: str) -> np.ndarray:
+        try:
+            sentence: Sentence
+            stacked_data: List = [getattr(sentence, name) for sentence in self.sentences]
+        except AttributeError as e:
+            raise e
+        return np.array(stacked_data)
 
 
 class DatasetReader:

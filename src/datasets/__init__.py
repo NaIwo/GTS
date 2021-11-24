@@ -1,1 +1,1 @@
-from src.datasets.dataset_reader import DatasetReader, Dataset
+from src.datasets.dataset import DatasetReader, Dataset

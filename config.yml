@@ -7,8 +7,8 @@ sentence:
 task:
   type: pair  # pair or triplet
 encoder:
-  type: glove-fasttext  # bert or glove-fasttext or indexer
-  embedding_dimension: 400
+  type: bert  # bert or glove-fasttext or indexer
+  embedding_dimension: 768  # 400 if not bert, if bert = 768
   bert:
     source: bert-base-uncased
   glove-fasttext:
@@ -16,4 +16,6 @@ encoder:
     glove-file: gen.vec.npy # in datasets/datasets/embeddings_data
     indexer-path: word_idx.json # in datasets/datasets/embeddings_data
   indexer:
-    word-to-idx: word_idx.json # in datasets/datasets/embeddings_data
+    indexer-path: word_idx.json # in datasets/datasets/embeddings_data
+    glove-file: gen.vec.npy # in datasets/datasets/embeddings_data
+    fasttext-file: res14_emb.vec.npy # in datasets/datasets/embeddings_data

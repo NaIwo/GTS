@@ -28,7 +28,7 @@ class Dataset:
         for ndx in range(0, s_quantity, batch_size):
             yield sentences[ndx:min(ndx + batch_size, s_quantity)]
 
-    def get(self, name: str) -> np.ndarray:
+    def __getattr__(self, name: str) -> np.ndarray:
         try:
             sentence: Sentence
             stacked_data: List = [getattr(sentence, name) for sentence in self.sentences]

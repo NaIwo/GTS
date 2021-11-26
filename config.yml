@@ -1,5 +1,5 @@
 dataset:
-  dataset-name: lap14 # lap14, res14, res15, res16
+  dataset-name: lap14 # {lap14, res14, res15, res16}
   batch-size: 32
   shuffle-seed: null
 sentence:
@@ -7,7 +7,7 @@ sentence:
 task:
   type: pair  # pair or triplet
 encoder:
-  type: bert  # bert or glove-fasttext or indexer
+  type: bert  # {bert, glove-fasttext, indexer}
   embedding_dimension: 768  # 400 if not bert, if bert = 768
   bert:
     source: bert-base-uncased
@@ -16,6 +16,10 @@ encoder:
     glove-file: gen.vec.npy # in datasets/datasets/embeddings_data
     indexer-path: word_idx.json # in datasets/datasets/embeddings_data
   indexer:
-    indexer-path: word_idx.json # in datasets/datasets/embeddings_data
-    glove-file: gen.vec.npy # in datasets/datasets/embeddings_data
     fasttext-file: res14_emb.vec.npy # in datasets/datasets/embeddings_data
+    glove-file: gen.vec.npy # in datasets/datasets/embeddings_data
+    indexer-path: word_idx.json # in datasets/datasets/embeddings_data
+model:
+  type: bert # {bert, cnn, bilstm}
+  bert:
+    source: bert-base-uncased

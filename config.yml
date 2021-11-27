@@ -1,3 +1,4 @@
+device: cpu # {cpu, gpu}
 dataset:
   dataset-name: lap14 # {lap14, res14, res15, res16}
   batch-size: 32
@@ -5,21 +6,28 @@ dataset:
 sentence:
   max-length: 100
 task:
-  type: pair  # pair or triplet
-encoder:
-  type: bert  # {bert, glove-fasttext, indexer}
-  embedding_dimension: 768  # 400 if not bert, if bert = 768
-  bert:
-    source: bert-base-uncased
-  glove-fasttext:
-    fasttext-model: model_lap14.bin # in datasets/datasets/embeddings_data
-    glove-file: gen.vec.npy # in datasets/datasets/embeddings_data
-    indexer-path: word_idx.json # in datasets/datasets/embeddings_data
-  indexer:
-    fasttext-file: res14_emb.vec.npy # in datasets/datasets/embeddings_data
-    glove-file: gen.vec.npy # in datasets/datasets/embeddings_data
-    indexer-path: word_idx.json # in datasets/datasets/embeddings_data
+  type: triplet  # pair or triplet
+  class-number:
+    triplet: 6
+    pair: 4
 model:
   type: bert # {bert, cnn, bilstm}
+  inference: 2
   bert:
     source: bert-base-uncased
+encoder:
+  type: bert  # {bert, glove-fasttext, indexer}
+  bert:
+    source: bert-base-uncased
+    embedding-dimension: 768
+  # All encoder files should be kept in datasets/datasets/embeddings_data directory
+  glove-fasttext:
+    fasttext-model: model_lap14.bin # <-- pay attention to that
+    glove-file: gen.vec.npy
+    indexer-path: word_idx.json
+    embedding-dimension: 400
+  indexer:
+    fasttext-file: lap14_emb.vec.npy # <-- pay attention to that
+    glove-file: gen.vec.npy
+    indexer-path: word_idx.json
+    embedding-dimension: 400

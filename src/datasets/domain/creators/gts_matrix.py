@@ -25,7 +25,7 @@ class GtsMatrixCreator(BaseCreator):
             self._fill_gts_based_on_span(gts_matrix, triplet.target_span, GTSMatrixID.TARGET.value)
             self._fill_gts_based_on_span(gts_matrix, triplet.opinion_span, GTSMatrixID.OPINION.value)
 
-        return self.fill_lower_diagonal_matrix_with_not_relevant_values(gts_matrix)
+        return self.fill_lower_diagonal_matrix(matrix=gts_matrix, value=GTSMatrixID.NOT_RELEVANT.value)
 
     def _get_raw_gts_matrix(self) -> np.ndarray:
         gts_matrix: np.ndarray = np.full(shape=(config['sentence']['max-length'], config['sentence']['max-length']),
@@ -60,11 +60,3 @@ class GtsMatrixCreator(BaseCreator):
             gts_matrix[t_start:t_end, o_start:o_end] = GTSMatrixID[triplet.sentiment].value
         else:
             gts_matrix[o_start:o_end, t_start:t_end] = GTSMatrixID[triplet.sentiment].value
-
-    @staticmethod
-    def fill_lower_diagonal_matrix_with_not_relevant_values(gts_matrix: np.ndarray) -> np.ndarray:
-        mask: np.ndarray = np.full(shape=(config['sentence']['max-length'], config['sentence']['max-length']),
-                                   fill_value=1.)
-        mask = np.triu(mask, k=0)
-        gts_matrix: np.ndarray = np.triu(gts_matrix, k=0)
-        return np.where(mask, gts_matrix, GTSMatrixID.NOT_RELEVANT.value)

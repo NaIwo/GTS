@@ -19,7 +19,8 @@ class Indexer(keras.layers.Layer):
         self.glove: np.ndarray = np.load(glove_path)
 
     def call(self, inputs: tf.Tensor, mask: tf.Tensor) -> tf.Tensor:
-        out: np.ndarray = np.empty(shape=(*inputs.shape, config['encoder']['embedding_dimension']), dtype=np.float32)
+        out: np.ndarray = np.empty(shape=(*inputs.shape, config['encoder']['indexer']['embedding-dimension']),
+                                   dtype=np.float32)
         batch_idx: int
         for batch_idx, sentence in enumerate(inputs):
             fasttext_temp: np.ndarray = self.fasttext[sentence]

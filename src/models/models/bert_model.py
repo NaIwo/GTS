@@ -12,7 +12,7 @@ class BertModel(BaseModel):
     def call(self, data: Dataset, training: Optional[bool] = None, **kwargs) -> tf.Tensor:
         embeddings: tf.Tensor = self.embeddings_layer(data.encoded_sentence, data.mask)
 
-        out = embeddings
+        out = self.inference_layer(embeddings, data.mask3d)
         return out
 
     def get_config(self):

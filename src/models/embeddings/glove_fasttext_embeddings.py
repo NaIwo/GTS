@@ -26,7 +26,8 @@ class GloveFasttext(keras.layers.Layer):
         self.word_to_idx: Dict = json.load(open(indexer_path))
 
     def call(self, inputs: tf.Tensor, mask: tf.Tensor) -> tf.Tensor:
-        out: np.ndarray = np.empty(shape=(*inputs.shape, config['encoder']['embedding_dimension']), dtype=np.float32)
+        out: np.ndarray = np.empty(shape=(*inputs.shape, config['encoder']['glove-fasttext']['embedding-dimension']),
+                                   dtype=np.float32)
         batch_idx: int
         for batch_idx, sentence in enumerate(inputs):
             word_idx: int

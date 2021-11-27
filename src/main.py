@@ -1,5 +1,4 @@
 from datasets import DatasetReader, Dataset
-
 from config_reader import config
 from models import BaseModel, get_model
 
@@ -13,5 +12,5 @@ if __name__ == "__main__":
     model: BaseModel = get_model()
 
     for data in train_ds.batch(batch_size=config['dataset']['batch-size'], seed=config['dataset']['shuffle-seed']):
-        print(model(data))
+        model(data)
         break

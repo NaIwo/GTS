@@ -21,9 +21,13 @@ class Sentence:
         self.encoded_sentence_length: int = len(self._encoded_sentence)
         self.triplets: List[Triplet] = triplets
 
-    @cached_property
+    @property
     def mask(self) -> np.ndarray:
-        return MaskCreator(self).construct()
+        return MaskCreator(self).construct1d()
+
+    @property
+    def mask3d(self) -> np.ndarray:
+        return MaskCreator(self).construct3d()
 
     @cached_property
     def target_tags_vector(self) -> np.ndarray:

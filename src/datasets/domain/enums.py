@@ -20,5 +20,5 @@ class GTSMatrixID(Enum):
 
 
 class MaskID(Enum):
-    RELEVANT = 1
     NOT_RELEVANT = 0
+    RELEVANT = 1

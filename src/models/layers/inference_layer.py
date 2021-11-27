@@ -23,7 +23,7 @@ class Inference(keras.layers.Layer):
 
         t: int
         for t in range(self.inference_quantity):
-            p_maxpool: tf.Tensor = self._maxpool_phase(p_ij * mask)
+            p_maxpool: tf.Tensor = self._maxpool_phase(p_ij*mask)
             q_ij: tf.Tensor = tf.concat([z_ij, p_maxpool, p_ij], axis=3)
             z_ij = self.linear(q_ij)
             p_ij = self.softmax(z_ij)
@@ -50,5 +50,8 @@ class Inference(keras.layers.Layer):
         p_concat: tf.Tensor = tf.concat([p_i, p_j], axis=3)
         p_max: tf.Tensor = tf.math.reduce_max(p_concat, axis=3)
         p_max = tf.expand_dims(p_max, axis=2)
-        return tf.repeat(p_max, repeats=p_max.shape[1], axis=2)
+        p_max = tf.repeat(p_max, repeats=p_max.shape[1], axis=2)
+        p_t: tf.Tensor = tf.transpose(p_max, perm=[0, 2, 1, 3])
+
+        return tf.concat([p_max, p_t], axis=3)
 

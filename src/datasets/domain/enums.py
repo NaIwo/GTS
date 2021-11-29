@@ -2,15 +2,19 @@ from enum import Enum
 from src.config_reader import config
 
 
+class IgnoreIndex(Enum):
+    IGNORE_INDEX = -1
+
+
 class TagVectorID(Enum):
-    NOT_RELEVANT = -1
+    NOT_RELEVANT = IgnoreIndex.IGNORE_INDEX.value
     OTHER = 0
     BEGIN = 1
     INSIDE = 2
 
 
 class GTSMatrixID(Enum):
-    NOT_RELEVANT = -1
+    NOT_RELEVANT = IgnoreIndex.IGNORE_INDEX.value
     OTHER = 0
     TARGET = 1
     OPINION = 2

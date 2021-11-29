@@ -4,7 +4,7 @@ import random
 from typing import Dict, List, Optional, TypeVar
 import numpy as np
 
-from .domain import Sentence
+from .domain import Sentence, IgnoreIndex
 
 D = TypeVar('D', bound='Dataset')
 
@@ -12,6 +12,7 @@ D = TypeVar('D', bound='Dataset')
 class Dataset:
     def __init__(self, raw_dataset: List[Sentence]):
         self.sentences: List[Sentence] = raw_dataset
+        self.ignore_index: int = IgnoreIndex.IGNORE_INDEX.value
 
     def batch(self, batch_size: int = 32, seed: Optional[int] = None) -> D:
         sentences: List[Sentence] = self.sentences

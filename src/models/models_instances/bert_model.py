@@ -11,6 +11,7 @@ class BertModel(BaseModel):
 
     def call(self, data: Dataset, training: Optional[bool] = None, **kwargs) -> tf.Tensor:
         embeddings: tf.Tensor = self.embeddings_layer(data.encoded_sentence, data.mask)
+        embeddings: tf.Tensor = self.dropout(embeddings, training=training)
 
         out = self.inference_layer(embeddings, data.mask3d)
         return out

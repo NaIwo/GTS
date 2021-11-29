@@ -1,7 +1,7 @@
 device: cpu # {cpu, gpu}
 dataset:
   dataset-name: lap14 # {lap14, res14, res15, res16}
-  batch-size: 32
+  batch-size: 4
   shuffle-seed: null
 sentence:
   max-length: 100
@@ -13,6 +13,8 @@ task:
 model:
   type: bert # {bert, cnn, bilstm}
   inference: 2
+  epochs: 100
+  learning-rate: 0.001
   bert:
     source: bert-base-uncased
 encoder:

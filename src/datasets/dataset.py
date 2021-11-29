@@ -4,6 +4,7 @@ import random
 from typing import Dict, List, Optional, TypeVar
 import numpy as np
 
+from src.config_reader import config
 from .domain import Sentence, IgnoreIndex
 
 D = TypeVar('D', bound='Dataset')
@@ -14,12 +15,15 @@ class Dataset:
         self.sentences: List[Sentence] = raw_dataset
         self.ignore_index: int = IgnoreIndex.IGNORE_INDEX.value
 
-    def batch(self, batch_size: int = 32, seed: Optional[int] = None) -> D:
+        self.batch_size: int = config['dataset']['batch-size']
+        self.shuffle_seed: Optional[int] = config['dataset']['shuffle-seed']
+
+    def __iter__(self) -> D:
         sentences: List[Sentence] = self.sentences
-        random.seed(seed)
+        random.seed(self.shuffle_seed)
         random.shuffle(sentences)
         data: List[Sentence]
-        for data in self._get_batch(sentences=sentences, batch_size=batch_size):
+        for data in self._get_batch(sentences=sentences, batch_size=self.batch_size):
             yield Dataset(data)
 
     @staticmethod

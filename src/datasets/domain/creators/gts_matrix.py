@@ -13,11 +13,9 @@ Sentence = TypeVar('Sentence')
 
 class GtsMatrixCreator(BaseCreator):
     def __init__(self, sentence: Sentence):
-        print('xDD')
         super().__init__(sentence=sentence)
 
     def construct(self) -> np.ndarray:
-        print('xD')
         gts_matrix: np.ndarray = self._get_raw_gts_matrix()
         triplet: Triplet
         for triplet in self.sentence.triplets:

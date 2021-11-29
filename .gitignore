@@ -2,3 +2,4 @@ __pycache__/
 .idea/
 
 /src/datasets/datasets/embeddings_data/*
+!/src/datasets/datasets/embeddings_data/placeholder

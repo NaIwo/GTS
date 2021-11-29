@@ -13,7 +13,7 @@ class BaseModel(keras.Model):
         super(BaseModel, self).__init__()
         self.embeddings_layer: Union[GloveFasttext, Indexer, Bert] = embeddings_layer
         self.inference_layer: Inference = Inference()
-        self.dropout: tf.keras.layers.Layer = tf.keras.layers.Dropout(0.1)
+        self.dropout: tf.keras.layers.Layer = tf.keras.layers.Dropout(0.5)
 
     @abstractmethod
     def call(self, inputs: Dataset, training: Optional[bool] = None, **kwargs) -> tf.Tensor:

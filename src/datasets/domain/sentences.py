@@ -16,7 +16,7 @@ class Sentence:
         self.sentence_id: int = sentence_id
         self.sentence: str = sentence
         self._encoded_sentence: List = encoder.encode(sentence=self.sentence)
-        self._encoded_words_in_sentence: List = encoder.encode_word_by_word(sentence=self.sentence)
+        self.encoded_words_in_sentence: List = encoder.encode_word_by_word(sentence=self.sentence)
         self.sentence_length: int = len(sentence.split())
         self.encoded_sentence_length: int = len(self._encoded_sentence)
         self.triplets: List[Triplet] = triplets

@@ -18,7 +18,8 @@ class GTSMatrixID(Enum):
     OTHER = 0
     TARGET = 1
     OPINION = 2
-    NEGATIVE = 3 if config['task']['type'] == 'triplet' else 3
+    PAIR = 3
+    NEGATIVE = 3
     NEUTRAL = 4 if config['task']['type'] == 'triplet' else 3
     POSITIVE = 5 if config['task']['type'] == 'triplet' else 3
 

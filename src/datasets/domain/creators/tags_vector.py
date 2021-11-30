@@ -23,7 +23,7 @@ class TagsVectorCreator(BaseCreator):
     def _construct_tags_vector(self, span_name: str) -> np.ndarray:
         tag_vector: np.ndarray = self._get_raw_tags_vector()
         triplet: Triplet
-        for triplet in self.sentence.triplets:
+        for triplet in self.triplets:
             span: BioTag = getattr(triplet, span_name)
             idx: int
             for idx in range(span.start_idx, span.end_idx):
@@ -36,7 +36,7 @@ class TagsVectorCreator(BaseCreator):
 
     def _get_raw_tags_vector(self) -> np.ndarray:
         tag_vector: np.ndarray = np.full(config['sentence']['max-length'], TagVectorID.OTHER.value)
-        tag_vector[self.sentence.encoded_sentence_length:] = TagVectorID.NOT_RELEVANT.value
+        tag_vector[self.encoded_sentence_length:] = TagVectorID.NOT_RELEVANT.value
         self._set_vector_border_values(tag_vector)
 
         return tag_vector
@@ -44,4 +44,4 @@ class TagsVectorCreator(BaseCreator):
     def _set_vector_border_values(self, tag_vector: np.ndarray) -> None:
         if config['encoder']['type'] == 'bert':
             tag_vector[0] = TagVectorID.NOT_RELEVANT.value
-            tag_vector[self.sentence.encoded_sentence_length - 1] = TagVectorID.NOT_RELEVANT.value
+            tag_vector[self.encoded_sentence_length - 1] = TagVectorID.NOT_RELEVANT.value

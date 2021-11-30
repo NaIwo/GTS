@@ -5,7 +5,7 @@ from typing import Dict, List, Optional, TypeVar
 import numpy as np
 
 from src.config_reader import config
-from .domain import Sentence, IgnoreIndex
+from .domain import Sentence
 
 D = TypeVar('D', bound='Dataset')
 
@@ -13,7 +13,6 @@ D = TypeVar('D', bound='Dataset')
 class Dataset:
     def __init__(self, raw_dataset: List[Sentence]):
         self.sentences: List[Sentence] = raw_dataset
-        self.ignore_index: int = IgnoreIndex.IGNORE_INDEX.value
 
         self.batch_size: int = config['dataset']['batch-size']
         self.shuffle_seed: Optional[int] = config['dataset']['shuffle-seed']

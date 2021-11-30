@@ -15,7 +15,7 @@ class MaskCreator(BaseCreator):
 
     def construct1d(self) -> np.ndarray:
         mask: np.ndarray = np.full(config['sentence']['max-length'], MaskID.RELEVANT.value)
-        mask[self.sentence.encoded_sentence_length:] = MaskID.NOT_RELEVANT.value
+        mask[self.encoded_sentence_length:] = MaskID.NOT_RELEVANT.value
         return mask
 
     def construct3d(self) -> np.ndarray:

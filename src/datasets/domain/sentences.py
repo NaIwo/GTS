@@ -45,11 +45,11 @@ class Sentence:
     def mask3d(self) -> np.ndarray:
         return MaskCreator(self).construct3d()
 
-    @cached_property
+    @property
     def target_tags_vector(self) -> np.ndarray:
         return TagsVectorCreator(self).construct_target_tags()
 
-    @cached_property
+    @property
     def opinion_tags_vector(self) -> np.ndarray:
         return TagsVectorCreator(self).construct_opinion_tags()
 

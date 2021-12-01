@@ -11,14 +11,22 @@ task:
     triplet: 6
     pair: 4
 model:
-  type: bert # {bert, cnn, bilstm}
-  inference: 2
-  epochs: 100
-  learning-rate: 0.001
+  type: cnn # {bert, cnn, bilstm}
   bert:
+    epochs: 100
+    learning-rate: 0.00001
+    inference: 1
     source: bert-base-uncased
+  cnn:
+    epochs: 600
+    learning-rate: 0.001
+    inference: 2
+  bilstm:
+    epochs: 600
+    learning-rate: 0.001
+    inference: 3
 encoder:
-  type: bert  # {bert, glove-fasttext, indexer}
+  type: indexer  # {bert, glove-fasttext, indexer}
   bert:
     source: bert-base-uncased
     embedding-dimension: 768

@@ -6,3 +6,4 @@ if config['device'] == 'cpu':
 
 from .base_model import BaseModel
 from .bert_model import BertModel
+from .cnn_model import CnnModel

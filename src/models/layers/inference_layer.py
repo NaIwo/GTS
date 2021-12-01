@@ -7,9 +7,14 @@ import tensorflow as tf
 class Inference(keras.layers.Layer):
     def __init__(self):
         super(Inference, self).__init__()
-        self.inference_quantity: int = config['model']['inference']  # L hyperparameter in article
+        model_type: str = config['model']['type']
+        self.inference_quantity: int = config['model'][model_type]['inference']  # L hyperparameter in article
 
-        units: int = config['encoder'][config['encoder']['type']]['embedding-dimension'] * 2
+        encoder_type: str = config['encoder']['type']
+        if encoder_type == 'bert':
+            units: int = config['encoder'][encoder_type]['embedding-dimension'] * 2
+        else:
+            units: int = 256 * 2  # LSTM
         self.linear: keras.layers.Layer = tf.keras.layers.Dense(units, activation=None)
 
         classes: int = config['task']['class-number'][config['task']['type']]
@@ -23,11 +28,10 @@ class Inference(keras.layers.Layer):
 
         t: int
         for t in range(self.inference_quantity):
-            p_maxpool: tf.Tensor = self._maxpool_phase(p_ij*mask)
+            p_maxpool: tf.Tensor = self._maxpool_phase(p_ij * mask)
             q_ij: tf.Tensor = tf.concat([z_ij, p_maxpool, p_ij], axis=3)
             z_ij = self.linear(q_ij)
             p_ij = self.softmax(z_ij)
-
         return p_ij
 
     @staticmethod
@@ -54,4 +58,3 @@ class Inference(keras.layers.Layer):
         p_t: tf.Tensor = tf.transpose(p_max, perm=[0, 2, 1, 3])
 
         return tf.concat([p_max, p_t], axis=3)
-

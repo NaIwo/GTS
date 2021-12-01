@@ -20,8 +20,14 @@ class Span:
         self.down: int = down
         self.sentiment: int = sentiment
 
-    def __repr__(self) -> str:
+    def __hash__(self) -> int:
+        return hash((self.id, self.left, self.right, self.up, self.down, self.sentiment))
+
+    def __str__(self) -> str:
         return f'{self.id}-{self.left}-{self.right}-{self.up}-{self.down}-{self.sentiment}'
+
+    def __repr__(self) -> str:
+        return self.__str__()
 
     @classmethod
     def from_word_list(cls, spans: List) -> List[S]:
@@ -32,7 +38,6 @@ class GtsMetric:  # (tf.metrics.Metric)
 
     def __init__(self, **kwargs):
         # super(GtsMetric, self).__init__(name=source, **kwargs)
-
         self.true_target_spans: List[Span] = list()
         self.true_opinion_spans: List[Span] = list()
         self.pred_target_spans: List[Span] = list()
@@ -77,8 +82,8 @@ class GtsMetric:  # (tf.metrics.Metric)
             self.pred_target_spans += get_span_ranges(prediction, GTSMatrixID.TARGET.value)
             self.pred_opinion_spans += get_span_ranges(prediction, GTSMatrixID.OPINION.value)
 
-            self.true_union_spans += self.get_union_ranges(tf.constant(true_data.gts_matrix), 'true')
-            self.pred_union_spans += self.get_union_ranges(prediction, 'pred')
+            self.true_union_spans += self.get_union_ranges(tf.constant(true_data.gts_matrix), source_name='true')
+            self.pred_union_spans += self.get_union_ranges(prediction, source_name='pred')
 
             Span.sentence_id += 1
 

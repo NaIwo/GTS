@@ -4,7 +4,6 @@ from typing import Optional, Union
 from abc import abstractmethod
 
 from ..embeddings import embeddings_layer, GloveFasttext, Indexer, Bert
-from src.datasets import Dataset
 from ..layers.inference_layer import Inference
 
 
@@ -16,7 +15,8 @@ class BaseModel(keras.Model):
         self.dropout: tf.keras.layers.Layer = tf.keras.layers.Dropout(0.5)
 
     @abstractmethod
-    def call(self, inputs: Dataset, training: Optional[bool] = None, **kwargs) -> tf.Tensor:
+    def call(self, encoded_sentence: tf.Tensor, mask: tf.Tensor, mask3d: tf.Tensor, sentence_length: tf.Tensor,
+             training: Optional[bool] = None, **kwargs) -> tf.Tensor:
         pass
 
     def get_config(self):

@@ -37,4 +37,4 @@ class GloveFasttext(keras.layers.Layer):
                 fasttext_temp: np.ndarray = self.fasttext_model.get_word_vector(word)
                 glove_temp: np.ndarray = self.glove[self.word_to_idx[word]]
                 out[batch_idx][word_idx] = np.concatenate((glove_temp, fasttext_temp), axis=-1)
-        return tf.constant(np.expand_dims(mask, axis=-1) * out)
+        return tf.convert_to_tensor(np.expand_dims(mask, axis=-1) * out)

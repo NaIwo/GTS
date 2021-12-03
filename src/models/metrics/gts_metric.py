@@ -1,6 +1,7 @@
 from src.datasets import Dataset
 from src.datasets.domain import IgnoreIndex, GTSMatrixID, Sentence
 from src.config_reader import config
+from ..utils import trim2d
 
 import tensorflow as tf
 from typing import List, TypeVar, Dict, Optional
@@ -46,8 +47,9 @@ class GtsMetric:  # (tf.metrics.Metric)
         self.pred_union_spans: List[Span] = list()
 
     def update_state(self, y_true: Dataset, y_pred: tf.Tensor, sample_weight=None):
+        y_true_gts_matrix: tf.Tensor = trim2d(tf.convert_to_tensor(y_true.gts_matrix), y_pred.shape[1])
         y_pred = tf.math.argmax(y_pred, axis=-1)
-        y_pred = tf.where(y_true.gts_matrix == IgnoreIndex.IGNORE_INDEX.value, y_true.gts_matrix, y_pred)
+        y_pred = tf.where(y_true_gts_matrix == IgnoreIndex.IGNORE_INDEX.value, y_true_gts_matrix, y_pred)
 
         def get_span_ranges(matrix: tf.Tensor, type_value: int) -> List[Span]:
             diag: tf.Tensor = tf.linalg.diag_part(matrix)
@@ -76,13 +78,14 @@ class GtsMetric:  # (tf.metrics.Metric)
 
         prediction: tf.Tensor
         true_data: Sentence
-        for prediction, true_data in zip(y_pred, y_true.sentences):
-            self.true_target_spans += get_span_ranges(tf.constant(true_data.gts_matrix), GTSMatrixID.TARGET.value)
-            self.true_opinion_spans += get_span_ranges(tf.constant(true_data.gts_matrix), GTSMatrixID.OPINION.value)
+        true_gts_matrix: tf.Tensor
+        for prediction, true_data, true_gts_matrix in zip(y_pred, y_true.sentences, y_true_gts_matrix):
+            self.true_target_spans += get_span_ranges(true_gts_matrix, GTSMatrixID.TARGET.value)
+            self.true_opinion_spans += get_span_ranges(true_gts_matrix, GTSMatrixID.OPINION.value)
             self.pred_target_spans += get_span_ranges(prediction, GTSMatrixID.TARGET.value)
             self.pred_opinion_spans += get_span_ranges(prediction, GTSMatrixID.OPINION.value)
 
-            self.true_union_spans += self.get_union_ranges(tf.constant(true_data.gts_matrix), source_name='true')
+            self.true_union_spans += self.get_union_ranges(true_gts_matrix, source_name='true')
             self.pred_union_spans += self.get_union_ranges(prediction, source_name='pred')
 
             Span.sentence_id += 1

@@ -6,7 +6,7 @@ from .losses.sparse_categorical_crossentropy import SparseCategoricalCrossentrop
 from .metrics.gts_metric import GtsMetric
 
 import tensorflow as tf
-from typing import List
+from typing import List, Dict
 import yaml
 
 
@@ -15,8 +15,8 @@ class GtsModel:
         self._model: BaseModel = model
         self.model_type: str = model_type
 
-    def __call__(self, data: Dataset, training: bool = False, **kwargs) -> tf.Tensor:
-        return self._model(inputs=data, training=training, **kwargs)
+    def __call__(self, training: bool = False, **kwargs) -> tf.Tensor:
+        return self._model(training=training, **kwargs)
 
     def train(self, train_data: Dataset, dev_data: Dataset, **kwargs):
         loss_fn = self._get_loss_function()
@@ -28,9 +28,9 @@ class GtsModel:
             step: int
             for step, data in enumerate(train_data):
                 with tf.GradientTape() as tape:
-                    prediction: tf.Tensor = self(data=data, training=True, **kwargs)
-                    loss_value: tf.Tensor = loss_fn(y_true=data.gts_matrix, y_pred=prediction)
-                grads = tape.gradient(loss_value, self._model.trainable_weights)
+                    prediction: tf.Tensor = self(**self.get_input_data(data), training=True, **kwargs)
+                    loss_value: tf.Tensor = loss_fn(y_true=tf.convert_to_tensor(data.gts_matrix), y_pred=prediction)
+                grads = tape.gradient(loss_value, self._model.trainable_variables)
                 optimizer.apply_gradients([
                     (grad, var)
                     for (grad, var) in zip(grads, self._model.trainable_variables)
@@ -43,13 +43,25 @@ class GtsModel:
         metrics: List = self._get_metrics()
         step: int
         for step, data in enumerate(test_data):
-            prediction: tf.Tensor = self(data=data, training=False, **kwargs)
+            prediction: tf.Tensor = self(**self.get_input_data(data), training=False, **kwargs)
             self._update_metrics(metrics=metrics, y_true=data, y_pred=prediction)
         self._print_metrics(metrics=metrics)
 
     @staticmethod
+    def get_input_data(data) -> Dict:
+        return {
+            'encoded_sentence': data.encoded_sentence,
+            'mask': data.mask,
+            'mask3d': data.mask3d,
+            'sentence_length': data.sentence_length
+        }
+
+    def build(self, example_input_shape: tf.Tensor):
+        self._model.build(example_input_shape)
+
+    @staticmethod
     def _get_loss_function() -> SparseCategoricalCrossentropy:
-        return SparseCategoricalCrossentropy(ignore_index=IgnoreIndex.IGNORE_INDEX.value, from_logits=False)
+        return SparseCategoricalCrossentropy(ignore_index=IgnoreIndex.IGNORE_INDEX.value)
 
     def _get_optimizer(self) -> tf.keras.optimizers:
         return tf.keras.optimizers.Adam(config['model'][self.model_type]['learning-rate'])

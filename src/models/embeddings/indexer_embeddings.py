@@ -26,4 +26,4 @@ class Indexer(keras.layers.Layer):
             fasttext_temp: np.ndarray = self.fasttext[sentence]
             glove_temp: np.ndarray = self.glove[sentence]
             out[batch_idx] = np.concatenate((glove_temp, fasttext_temp), axis=-1)
-        return tf.constant(np.expand_dims(mask, axis=-1) * out)
+        return tf.convert_to_tensor(np.expand_dims(mask, axis=-1) * out)

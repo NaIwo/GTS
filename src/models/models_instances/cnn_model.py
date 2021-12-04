@@ -30,7 +30,7 @@ class CnnModel(BaseModel):
             conv_out = self.relu(conv_out)
             conv_out = self.dropout(conv_out, training=training)
 
-        trim_len: int = tf.math.reduce_max(sentence_length)
+        trim_len: tf.Tensor = tf.math.reduce_max(sentence_length)
 
         return self.inference_layer(trim1d(conv_out, trim_len), trim2d(mask3d, trim_len))
 

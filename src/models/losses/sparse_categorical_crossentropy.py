@@ -21,8 +21,7 @@ class SparseCategoricalCrossentropy(tf.keras.losses.Loss):
         log_probabilities *= mask
         batch_loss: tf.Tensor = tf.math.reduce_sum(log_probabilities, axis=(1, 2))
         normalizer: tf.Tensor = tf.math.reduce_sum(mask)
-        loss: tf.Tensor = batch_loss / normalizer
-        return -tf.math.reduce_sum(loss)
+        return -tf.math.reduce_sum(batch_loss) / normalizer
 
     @staticmethod
     def gather(params: tf.Tensor, indices: tf.Tensor) -> tf.Tensor:

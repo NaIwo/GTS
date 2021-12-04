@@ -30,10 +30,10 @@ class GtsModel:
                 with tf.GradientTape() as tape:
                     prediction: tf.Tensor = self(**self.get_input_data(data), training=True, **kwargs)
                     loss_value: tf.Tensor = loss_fn(y_true=tf.convert_to_tensor(data.gts_matrix), y_pred=prediction)
-                grads = tape.gradient(loss_value, self._model.trainable_variables)
+                grads = tape.gradient(loss_value, self._model.trainable_weights)
                 optimizer.apply_gradients([
                     (grad, var)
-                    for (grad, var) in zip(grads, self._model.trainable_variables)
+                    for (grad, var) in zip(grads, self._model.trainable_weights)
                     if grad is not None
                 ])
                 print(f"\rEpoch {epoch + 1}/{epochs}, Step {step}, Loss {loss_value}", end='', flush=True)

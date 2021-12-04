@@ -15,7 +15,7 @@ class Inference(keras.layers.Layer):
             units: int = config['encoder'][encoder_type]['embedding-dimension'] * 2
         else:
             units: int = 256 * 2  # LSTM, CNN
-        self.linear: keras.layers.Layer = tf.keras.layers.Dense(units, activation=None)
+        self.linear: keras.layers.Layer = tf.keras.layers.Dense(units, activation='linear')
 
         classes: int = config['task']['class-number'][config['task']['type']]
         self.softmax: keras.layers.Layer = tf.keras.layers.Dense(classes, activation='softmax')

@@ -25,7 +25,7 @@ class MaskCreator(BaseCreator):
         mask_t: np.ndarray = np.transpose(mask, axes=[1, 0])
         mask *= mask_t
         mask = self.fill_lower_diagonal_matrix(matrix=mask, value=MaskID.NOT_RELEVANT.value)
-        mask = np.expand_dims(mask, axis=-1)
+        mask = np.expand_dims(mask, axis=2)
         return np.repeat(mask, repeats=self.repeats_number, axis=-1)
 
     @property

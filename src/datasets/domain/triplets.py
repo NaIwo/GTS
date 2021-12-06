@@ -13,8 +13,8 @@ class Triplet:
         self.sentence_length: int = len(target_tags.split())
         self.sentiment: str = sentiment.upper()
 
-        self.target_span: BioTag = BioTag.from_raw_tags(tags=self.target_tags)
-        self.opinion_span: BioTag = BioTag.from_raw_tags(tags=self.opinion_tags)
+        self.target_spans: List[BioTag] = BioTag.from_raw_tags(tags=self.target_tags)
+        self.opinion_spans: List[BioTag] = BioTag.from_raw_tags(tags=self.opinion_tags)
 
     @classmethod
     def from_list(cls, data: List[Dict]) -> List[T]:

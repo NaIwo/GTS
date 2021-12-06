@@ -13,17 +13,18 @@ class BioTag:
         self.span_words: str = span_words
 
     @classmethod
-    def from_raw_tags(cls, tags: str) -> B:
+    def from_raw_tags(cls, tags: str) -> List[B]:
         splitted_tags: List = tags.strip().split()
 
         span: Optional[BioTag] = None
+        spans: List[BioTag] = list()
 
         tag: str
         idx: int
         for idx, tag in enumerate(splitted_tags):
             word: str
             bio_tag: str
-            word, bio_tag = tag.split('\\')
+            word, bio_tag = tag.strip().split('\\')
             if bio_tag == 'B':
                 span = BioTag()
                 span.start_idx = idx
@@ -32,9 +33,10 @@ class BioTag:
                 span.span_words += f' {word}'
             if (bio_tag == 'O' or idx == len(splitted_tags) - 1) and (span is not None):
                 span.end_idx = idx - (int(bio_tag == 'O'))  # if idx == len(splitted_tags) - 1
-                break
+                spans.append(span)
+                span = None
 
-        return span
+        return spans
 
     def __str__(self) -> str:
         return str({

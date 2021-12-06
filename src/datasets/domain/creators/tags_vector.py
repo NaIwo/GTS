@@ -1,5 +1,5 @@
 import numpy as np
-from typing import TypeVar
+from typing import TypeVar, List
 
 from src.datasets.domain.bio_tags import BioTag
 from src.datasets.domain.enums import TagVectorID
@@ -15,22 +15,24 @@ class TagsVectorCreator(BaseCreator):
         super().__init__(sentence=sentence)
 
     def construct_target_tags(self) -> np.ndarray:
-        return self._construct_tags_vector('target_span')
+        return self._construct_tags_vector('target_spans')
 
     def construct_opinion_tags(self) -> np.ndarray:
-        return self._construct_tags_vector('opinion_span')
+        return self._construct_tags_vector('opinion_spans')
 
     def _construct_tags_vector(self, span_name: str) -> np.ndarray:
         tag_vector: np.ndarray = self._get_raw_tags_vector()
         triplet: Triplet
         for triplet in self.triplets:
-            span: BioTag = getattr(triplet, span_name)
-            idx: int
-            for idx in range(span.start_idx, span.end_idx):
-                tag_vector[self.token_range[idx][0]] = TagVectorID.INSIDE.value
-                tag_vector[self.token_range[idx][0] + 1:self.token_range[idx][1] + 1] = TagVectorID.NOT_RELEVANT.value
+            spans: List[BioTag] = getattr(triplet, span_name)
+            span: BioTag
+            for span in spans:
+                idx: int
+                for idx in range(span.start_idx, span.end_idx + 1):
+                    tag_vector[self.token_range[idx][0]] = TagVectorID.INSIDE.value
+                    tag_vector[self.token_range[idx][0] + 1:self.token_range[idx][1] + 1] = TagVectorID.NOT_RELEVANT.value
 
-            tag_vector[self.token_range[span.start_idx][0]] = TagVectorID.BEGIN.value
+                tag_vector[self.token_range[span.start_idx][0]] = TagVectorID.BEGIN.value
 
         return tag_vector
 

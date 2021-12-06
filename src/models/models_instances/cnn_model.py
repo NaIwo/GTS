@@ -8,11 +8,11 @@ from ..utils import trim1d, trim2d
 class CnnModel(BaseModel):
     def __init__(self):
         super(CnnModel, self).__init__()
-        self.domain: tf.keras.layers.Layer = tf.keras.layers.Conv1D(128, kernel_size=3, padding="causal")
-        self.general: tf.keras.layers.Layer = tf.keras.layers.Conv1D(128, kernel_size=5, padding="causal")
-        self.conv1: tf.keras.layers.Layer = tf.keras.layers.Conv1D(256, kernel_size=5, padding="causal")
-        self.conv2: tf.keras.layers.Layer = tf.keras.layers.Conv1D(256, kernel_size=5, padding="causal")
-        self.conv3: tf.keras.layers.Layer = tf.keras.layers.Conv1D(256, kernel_size=5, padding="causal")
+        self.domain: tf.keras.layers.Layer = tf.keras.layers.Conv1D(128, kernel_size=3, padding="same")
+        self.general: tf.keras.layers.Layer = tf.keras.layers.Conv1D(128, kernel_size=5, padding="same")
+        self.conv1: tf.keras.layers.Layer = tf.keras.layers.Conv1D(256, kernel_size=5, padding="same")
+        self.conv2: tf.keras.layers.Layer = tf.keras.layers.Conv1D(256, kernel_size=5, padding="same")
+        self.conv3: tf.keras.layers.Layer = tf.keras.layers.Conv1D(256, kernel_size=5, padding="same")
         self.relu: tf.keras.layers.Layer = tf.keras.layers.ReLU()
 
     def call(self, encoded_sentence: tf.Tensor, mask: tf.Tensor, mask3d: tf.Tensor, sentence_length: tf.Tensor,

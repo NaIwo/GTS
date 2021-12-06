@@ -17,7 +17,7 @@ class SparseCategoricalCrossentropy(tf.keras.losses.Loss):
         y_true = tf.where(y_true == self.ignore_index, 0, y_true)
 
         probabilities: tf.Tensor = self.gather(y_pred, y_true)
-        log_probabilities: tf.Tensor = tf.math.log(probabilities)
+        log_probabilities: tf.Tensor = self.safe_log(probabilities)
         log_probabilities *= mask
         batch_loss: tf.Tensor = tf.math.reduce_sum(log_probabilities, axis=(1, 2))
         normalizer: tf.Tensor = tf.math.reduce_sum(mask)
@@ -30,3 +30,7 @@ class SparseCategoricalCrossentropy(tf.keras.losses.Loss):
         indexes = tf.transpose(tf.stack(indexes), perm=[1, 2, 3, 0])
         indexes = tf.concat([indexes, tf.expand_dims(indices, axis=-1)], axis=-1)
         return tf.gather_nd(params, indexes)
+
+    @staticmethod
+    def safe_log(matrix: tf.Tensor):
+        return tf.math.log(tf.clip_by_value(matrix, 1e-10, 1.0))

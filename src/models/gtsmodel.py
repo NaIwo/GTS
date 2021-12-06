@@ -21,7 +21,6 @@ class GtsModel:
     def train(self, train_data: Dataset, dev_data: Dataset, **kwargs):
         loss_fn = self._get_loss_function()
         optimizer: tf.keras.optimizers = self._get_optimizer()
-
         epoch: int
         epochs: int = config['model'][self.model_type]['epochs']
         for epoch in range(epochs):
@@ -48,7 +47,7 @@ class GtsModel:
         self._print_metrics(metrics=metrics)
 
     @staticmethod
-    def get_input_data(data) -> Dict:
+    def get_input_data(data: Dataset) -> Dict:
         return {
             'encoded_sentence': data.encoded_sentence,
             'mask': data.mask,

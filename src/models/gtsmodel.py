@@ -45,6 +45,7 @@ class GtsModel:
             prediction: tf.Tensor = self(**self.get_input_data(data), training=False, **kwargs)
             self._update_metrics(metrics=metrics, y_true=data, y_pred=prediction)
         self._print_metrics(metrics=metrics)
+        self._reset_metrics_state(metrics=metrics)
 
     @staticmethod
     def get_input_data(data: Dataset) -> Dict:
@@ -79,6 +80,12 @@ class GtsModel:
         print(f'\n{source} metrics:')
         for metric in metrics:
             print(yaml.dump(metric.result(), sort_keys=False, default_flow_style=False))
+
+    @staticmethod
+    def _reset_metrics_state(metrics: List) -> None:
+        for metric in metrics:
+            metric.reset_state()
+
 
 
 if config['model']['type'] == 'bert':

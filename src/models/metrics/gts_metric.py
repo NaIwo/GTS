@@ -46,6 +46,15 @@ class GtsMetric:  # (tf.metrics.Metric)
         self.true_union_spans: List[Span] = list()
         self.pred_union_spans: List[Span] = list()
 
+    def reset_state(self):
+        self.true_target_spans = list()
+        self.true_opinion_spans = list()
+        self.pred_target_spans = list()
+        self.pred_opinion_spans = list()
+        self.true_union_spans = list()
+        self.pred_union_spans = list()
+        Span.sentence_id = 0
+
     def update_state(self, y_true: Dataset, y_pred: tf.Tensor, sample_weight=None):
         y_true_gts_matrix: tf.Tensor = trim2d(tf.convert_to_tensor(y_true.gts_matrix), y_pred.shape[1])
         y_pred = tf.math.argmax(y_pred, axis=-1)

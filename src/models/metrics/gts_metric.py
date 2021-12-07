@@ -24,6 +24,13 @@ class Span:
     def __hash__(self) -> int:
         return hash((self.id, self.left, self.right, self.up, self.down, self.sentiment))
 
+    def __eq__(self, other) -> bool:
+        return all([self_attribute == other_attribute for self_attribute, other_attribute in
+                    zip(self.__dict__, other.__dict__)])
+
+    def __ne__(self, other) -> bool:
+        return not self.__eq__(other)
+
     def __str__(self) -> str:
         return f'{self.id}-{self.left}-{self.right}-{self.up}-{self.down}-{self.sentiment}'
 
@@ -111,7 +118,7 @@ class GtsMetric:  # (tf.metrics.Metric)
         for t_span in target_values:
             o_span: Span
             for o_span in opinion_values:
-                if t_span.left < o_span.left:
+                if t_span.left <= o_span.left:
                     self.update_ranges(matrix, ranges, t_span, o_span)
                 else:
                     self.update_ranges(matrix, ranges, o_span, t_span)

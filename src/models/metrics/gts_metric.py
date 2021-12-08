@@ -1,6 +1,6 @@
 from src.datasets import Dataset
 from src.datasets.domain import IgnoreIndex, GTSMatrixID, Sentence
-from src.config_reader import config
+from src.utils import config
 from ..utils import trim2d
 
 import tensorflow as tf

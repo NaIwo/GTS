@@ -19,5 +19,9 @@ class BaseModel(keras.Model):
              training: Optional[bool] = None, **kwargs) -> tf.Tensor:
         pass
 
+    @staticmethod
+    def get_max_length(sentence_length: tf.Tensor) -> int:
+        return int(tf.math.reduce_max(sentence_length))
+
     def get_config(self):
         pass

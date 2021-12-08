@@ -1,5 +1,5 @@
 from enum import Enum
-from src.config_reader import config
+from src.utils import config
 
 
 class IgnoreIndex(Enum):

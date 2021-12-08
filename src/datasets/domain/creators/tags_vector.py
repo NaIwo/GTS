@@ -4,7 +4,7 @@ from typing import TypeVar, List
 from src.datasets.domain.bio_tags import BioTag
 from src.datasets.domain.enums import TagVectorID
 from src.datasets.domain.triplets import Triplet
-from src.config_reader import config
+from src.utils import config
 from .base_creator import BaseCreator
 
 Sentence = TypeVar('Sentence')

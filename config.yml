@@ -1,4 +1,6 @@
-device: cpu # {cpu, gpu}
+general:
+  device: cpu # {cpu, gpu}
+  logging-level: INFO
 dataset:
   dataset-name: lap14 # {lap14, res14, res15, res16}
   batch-size: 4
@@ -11,7 +13,8 @@ task:
     triplet: 6
     pair: 4
 model:
-  type: cnn # {bert, cnn, bilstm}
+  type: bilstm # {bert, cnn, bilstm}
+  training: true
   bert:
     epochs: 100
     learning-rate: 0.00001
@@ -21,10 +24,12 @@ model:
     epochs: 600
     learning-rate: 0.001
     inference: 2
+    attention-dimension: 50
   bilstm:
     epochs: 600
     learning-rate: 0.001
     inference: 3
+    attention-dimension: 50
 encoder:
   type: indexer  # {bert, glove-fasttext, indexer}
   bert:

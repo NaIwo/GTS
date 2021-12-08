@@ -1,8 +1,8 @@
-from typing import TypeVar, List
-from functools import cached_property
+from typing import TypeVar
+import logging
 import numpy as np
 
-from src.config_reader import config
+from src.utils import config
 
 Sentence = TypeVar('Sentence')
 
@@ -15,6 +15,7 @@ class BaseCreator:
         try:
             return getattr(self.sentence, name)
         except AttributeError as e:
+            logging.error(e)
             raise e
 
     @staticmethod

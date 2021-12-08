@@ -2,7 +2,7 @@ from tensorflow import keras
 import tensorflow as tf
 from transformers import TFBertModel
 
-from src.config_reader import config
+from src.utils import config
 
 
 class Bert(keras.layers.Layer):

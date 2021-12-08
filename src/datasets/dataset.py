@@ -3,8 +3,9 @@ import json
 import random
 from typing import Dict, List, Optional, TypeVar
 import numpy as np
+import logging
 
-from src.config_reader import config
+from src.utils import config
 from .domain import Sentence
 
 D = TypeVar('D', bound='Dataset')
@@ -37,6 +38,7 @@ class Dataset:
             sentence: Sentence
             stacked_data: List = [getattr(sentence, name) for sentence in self.sentences]
         except AttributeError as e:
+            logging.error(e)
             raise e
         return np.array(stacked_data)
 

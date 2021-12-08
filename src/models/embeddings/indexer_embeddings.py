@@ -3,7 +3,7 @@ from tensorflow import keras
 import tensorflow as tf
 import sys
 import os
-from src.config_reader import config
+from src.utils import config
 
 
 class Indexer(keras.layers.Layer):

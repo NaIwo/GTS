@@ -2,7 +2,7 @@ from typing import TypeVar
 import numpy as np
 
 from src.datasets.domain.enums import MaskID
-from src.config_reader import config
+from src.utils import config
 from .base_creator import BaseCreator
 
 Sentence = TypeVar('Sentence')

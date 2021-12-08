@@ -1,5 +1,5 @@
 from .base_encoder import BaseEncoder
-from src.config_reader import config
+from src.utils import config
 from typing import List
 
 from transformers import BertTokenizer

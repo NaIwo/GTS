@@ -1,4 +1,4 @@
-from src.config_reader import config
+from src.utils import config
 
 from .glove_fasttext_embeddings import GloveFasttext
 from .indexer_embeddings import Indexer

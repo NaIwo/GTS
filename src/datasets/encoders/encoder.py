@@ -1,7 +1,7 @@
 from src.datasets.encoders.bert_encoder import BertEncoder
 from src.datasets.encoders.base_encoder import BaseEncoder
 from src.datasets.encoders.index_encoder import IndexEncoder
-from src.config_reader import config
+from src.utils import config
 
 from typing import List
 

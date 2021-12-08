@@ -2,7 +2,7 @@ from typing import Dict, List, TypeVar
 import numpy as np
 from functools import cached_property
 
-from src.config_reader import config
+from src.utils import config
 from .enums import MaskID
 from .triplets import Triplet
 from ..encoders.encoder import encoder

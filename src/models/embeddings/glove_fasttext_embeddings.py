@@ -6,7 +6,7 @@ import fasttext
 import sys
 import os
 import json
-from src.config_reader import config
+from src.utils import config
 
 
 class GloveFasttext(keras.layers.Layer):

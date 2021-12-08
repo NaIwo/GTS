@@ -4,7 +4,7 @@ from typing import List, TypeVar
 from src.datasets.domain.bio_tags import BioTag
 from src.datasets.domain.enums import GTSMatrixID, TagVectorID
 from src.datasets.domain.triplets import Triplet
-from src.config_reader import config
+from src.utils import config
 from .base_creator import BaseCreator
 
 

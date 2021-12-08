@@ -1,4 +1,4 @@
-from src.config_reader import config
+from src.utils import config
 
 from tensorflow import keras
 import tensorflow as tf
@@ -13,8 +13,10 @@ class Inference(keras.layers.Layer):
         encoder_type: str = config['encoder']['type']
         if encoder_type == 'bert':
             units: int = config['encoder'][encoder_type]['embedding-dimension'] * 2
-        else:
-            units: int = 256 * 2  # LSTM, CNN
+        elif encoder_type == 'cnn':
+            units: int = 256 * 2  # 256 - cnn output dimension - paper
+        else:  # bilstm
+            units: int = 100 * 2  # 100 - bilstm output dimension (50 * 2 - concatenation) - paper
         self.linear: keras.layers.Layer = tf.keras.layers.Dense(units, activation='linear')
 
         classes: int = config['task']['class-number'][config['task']['type']]

@@ -42,6 +42,12 @@ class Dataset:
             raise e
         return np.array(stacked_data)
 
+    def sample_data(self, factor: float, seed: Optional[int] = None) -> D:
+        random.seed(seed)
+        k: int = int(len(self.sentences) * factor)
+        random_sentences: List[Sentence] = random.sample(self.sentences, k=k)
+        return Dataset(random_sentences)
+
 
 class DatasetReader:
     def __init__(self, dataset_name: str):

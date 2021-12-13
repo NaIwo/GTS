@@ -39,3 +39,28 @@ Fields worth explaining in **config.yml**
 - glove-fasttext - this encoder is using your own fasttext embeddings - you can prepare fasttext embeddings by your own with  *src/datasets/datasets/fast_text.py* script.
 #### Matrix fields marking
 If you want to use different markings in the matrix, change the values in *src/datasets/domain/enums.py* the file to the ones you prefer.
+
+## Citation
+If you used the datasets or code, please cite their paper:
+```bibtex
+@inproceedings{wu-etal-2020-grid,
+    title = "Grid Tagging Scheme for Aspect-oriented Fine-grained Opinion Extraction",
+    author = "Wu, Zhen  and
+      Ying, Chengcan  and
+      Zhao, Fei  and
+      Fan, Zhifang  and
+      Dai, Xinyu  and
+      Xia, Rui",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2020",
+    month = nov,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/2020.findings-emnlp.234",
+    doi = "10.18653/v1/2020.findings-emnlp.234",
+    pages = "2576--2585",
+}
+```
+
+## Reference
+[1]. Zhen Wu, Chengcan Ying, Fei Zhao, Zhifang Fan, Xinyu Dai, Rui Xia. [Grid Tagging Scheme for Aspect-oriented Fine-grained Opinion Extraction](https://arxiv.org/pdf/2010.04640.pdf). In Findings of EMNLP, 2020.

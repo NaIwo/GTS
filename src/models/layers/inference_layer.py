@@ -10,10 +10,10 @@ class Inference(keras.layers.Layer):
         model_type: str = config['model']['type']
         self.inference_quantity: int = config['model'][model_type]['inference']  # L hyperparameter in article
 
-        encoder_type: str = config['encoder']['type']
-        if encoder_type == 'bert':
+        encoder_type: str = config['model']['type']
+        if model_type == 'bert':
             units: int = config['encoder'][encoder_type]['embedding-dimension'] * 2
-        elif encoder_type == 'cnn':
+        elif model_type == 'cnn':
             units: int = 256 * 2  # 256 - cnn output dimension - paper
         else:  # bilstm
             units: int = 100 * 2  # 100 - bilstm output dimension (50 * 2 - concatenation) - paper

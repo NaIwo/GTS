@@ -5,6 +5,7 @@ dataset:
   dataset-name: lap14 # {lap14, res14, res15, res16}
   batch-size: 4
   shuffle-seed: null
+  valid-sample-ratio: 1.0
 sentence:
   max-length: 100
 task:

@@ -3,7 +3,4 @@ __pycache__/
 
 /src/logfile.log
 
-/src/datasets/datasets/embeddings_data/*
-!/src/datasets/datasets/embeddings_data/placeholder
-
 /src/models_weights/*

@@ -76,7 +76,7 @@ class GtsModel:
 
                 print(f"\rEpoch {epoch + 1}/{epochs}, Step {step}, Loss {loss_value}", end='', flush=True)
 
-                self.test(test_data=dev_data.sample_data(config['dataset']['valid-sample-ratio']))
+            self.test(test_data=dev_data.sample_data(config['dataset']['valid-sample-ratio']))
             logging.info(f'Average epoch loss ({epoch}): {self.memory.loss}')
 
         logging.info(f'End Training: {datetime.now()}')

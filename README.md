@@ -16,7 +16,7 @@ tensorflow == 2.6.0
 All of required packages are provided in **requirements.txt** file.
 
 Just run:
-```
+```bash
 pip install -r requirements.txt
 ```
 ## Usage
@@ -25,7 +25,7 @@ pip install -r requirements.txt
 export PYTHONPATH="${PYTHONPATH}:/path/to/project/GTS"
 ```
 ### Run
-```
+```bash
 python src/main.py
 ```
 #### Parametrization
@@ -39,6 +39,15 @@ Fields worth explaining in **config.yml**
 - glove-fasttext - this encoder is using your own fasttext embeddings - you can prepare fasttext embeddings by your own with  *src/datasets/datasets/fast_text.py* script.
 #### Matrix fields marking
 If you want to use different markings in the matrix, change the values in *src/datasets/domain/enums.py* the file to the ones you prefer.
+
+### Postprocess
+The <u>**average**</u> result of the experiments (for each component) based on the log file can be obtained using the **parser.py** script
+```bash
+python src/parser.py -f logfile
+```
+If you have made changes to the logs format/method, also change the parser as it is based on the predefined log structure. 
+
+The results are saved in the **results.yml** file
 
 ## Citation
 If you used the datasets or code, please cite their paper:

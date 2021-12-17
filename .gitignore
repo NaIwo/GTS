@@ -2,5 +2,6 @@ __pycache__/
 .idea/
 
 /src/logfile.log
+/src/results.yml
 
 /src/models_weights/*
